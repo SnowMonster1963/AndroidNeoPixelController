@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NeoPixel Controller</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_mqtt_broker">MQTT Broker</string>
+    <string name="title_activity_mqttsetup">MQTTSetupActivity</string>
+    <string name="mqtt_broker_host">MQTT Broker Host</string>
+    <string name="mqtt_broker_port">MQTT Port:</string>
+    <string name="user_name">User Name:</string>
+    <string name="password">Password:</string>
+    <string name="save_button">Save</string>
+    <string name="default_mqtt_clientid">Android</string>
+    <string name="default_mqtt_host">www.thomassnow.com</string>
+    <string name="default_mqtt_port">1883</string>
+    <string name="key_mqtt_clientid">com.thomassnow.XmasTree.key.mqtt_clientid</string>
+    <string name="key_mqtt_host">com.thomassnow.XmasTree.key.mqtt_host</string>
+    <string name="key_mqtt_port">com.thomassnow.XmasTree.key.mqtt_port</string>
+    <string name="key_mqtt_username">com.thomassnow.XmasTree.key.mqtt_username</string>
+    <string name="key_mqtt_password">com.thomassnow.XmasTree.key.mqtt_password</string>
+    <string name="promptEffect">Effect:</string>
+    <string name="promptColorMode">Color Mode:</string>
+    <string name="promptAttack">Attack</string>
+    <string name="promptSustain">Sustain</string>
+    <string name="promptDecay">Decay</string>
+    <string name="promptDensity">Density:</string>
+    <string name="labelEffect0">Off</string>
+    <string name="labelEffect1">All On</string>
+    <string name="labelEffect2">Twinkle</string>
+    <string name="labelEffect3">Theater Chase</string>
+    <string name="labelEffect4">Rainbow</string>
+    <string name="labelEffect5">Candle Flicker</string>
+    <string name="labelCMode0">Single</string>
+    <string name="labelCMode1">Pattern</string>
+    <string name="labelCMode2">Random</string>
+    <string name="title_activity_color_picker">Choose a Color</string>
+    <string name="promptRed">Red</string>
+    <string name="promptGreen">Green</string>
+    <string name="promptBlue">Blue</string>
+    <string name="promptActive">Color Active?</string>
+    <string name="promptOK">OK</string>
+    <string name="promptPlus">+</string>
+    <string name="promptMinus">-</string>
+    
+</resources>

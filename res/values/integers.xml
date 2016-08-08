@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="intAttack">255</integer>
+    <integer name="intSustain">255</integer>
+    <integer name="intDecay">255</integer>
+    <integer name="intDensity">99</integer>
+    <integer name="intColor">255</integer>
+</resources>
