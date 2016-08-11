@@ -40,7 +40,15 @@
     <string name="promptBlue">Blue</string>
     <string name="promptActive">Color Active?</string>
     <string name="promptOK">OK</string>
+    <string name="promptCancel">Cancel</string>
     <string name="promptPlus">+</string>
     <string name="promptMinus">-</string>
-    
+    <string name="promptNew">New</string>
+    <string name="promptUpdate">Update</string>
+    <string name="promptDelete">Delete</string>
+    <string name="promptPrograms">Programs</string>
+    <string name="titleProgram">Edit Program</string>
+    <string name="hintName">Name</string>
+    <string name="hintDescr">Description</string>
+
 </resources>

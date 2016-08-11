@@ -305,6 +305,11 @@ public class ControllerNode
 					connection.publishTopic(getName() + "/set/pattern", s, 1, true);
 
 			}
+		
+		public RGB[] getColors()
+			{
+				return colors;
+			}
 
 		public boolean isPayAttention()
 			{

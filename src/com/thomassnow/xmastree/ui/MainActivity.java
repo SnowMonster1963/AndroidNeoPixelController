@@ -1,9 +1,15 @@
 package com.thomassnow.xmastree.ui;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.thomassnow.xmastree.R;
 import com.thomassnow.xmastree.data.ControllerNode.NodeActivityListener;
+import com.thomassnow.xmastree.data.LightProgram;
+import com.thomassnow.xmastree.data.LightPrograms;
 import com.thomassnow.xmastree.data.MQTTInternals;
 import com.thomassnow.xmastree.data.MQTTSettings;
 import com.thomassnow.xmastree.data.RGB;
@@ -43,6 +49,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 	{
+		private static final String programFile = "programs.dat";
+		
 		MQTTService mService;
 		boolean mBound = false;
 		private MQTTServiceConnection mConnection;
@@ -51,10 +59,36 @@ public class MainActivity extends Activity
 		private PlaceholderFragment phf;
 		private ArrayAdapter<ControllerNode> nodes_inlb;
 		private ArrayList<ControllerNode> nodes;
-		private ListAdapter controller_list_adapter;
 		private ControllerNode active_node;
 		private RGB rgbarry[];
 		private int cvidx;
+		private ArrayAdapter<LightProgram> programs_inlb;
+		private int progidx;
+		private int temp;
+		
+		private enum UpdateMode
+		{
+			updateWidget,
+			updateController,
+			updateBoth
+		}
+		
+		private static final int[] colorControlList =
+					{
+					        R.id.seekBlue,
+					        R.id.seekBlueMinus,
+					        R.id.seekBluePlus,
+					        R.id.seekGreen,
+					        R.id.seekGreenMinus,
+					        R.id.seekGreenPlus,
+					        R.id.seekRed,
+					        R.id.seekRedMinus,
+					        R.id.seekRedPlus,
+					        R.id.textViewBlue,
+					        R.id.textViewGreen,
+					        R.id.textViewRed,
+					};
+		
 		private static final int[] enableList =
 					{
 					        R.id.color0,
@@ -112,6 +146,11 @@ public class MainActivity extends Activity
 					        R.id.textViewGreen,
 					        R.id.textViewRed,
 					        R.id.textViewSustain,
+					        R.id.textPrograms,
+					        R.id.listPrograms,
+					        R.id.buttonNew,
+					        R.id.buttonUpdate,
+					        R.id.buttonDelete,
 					};
 
 		class MQTTServiceConnection implements ServiceConnection
@@ -141,6 +180,93 @@ public class MainActivity extends Activity
 					}
 
 			}
+		
+		private void loadPrograms()
+			{
+				FileInputStream fis;
+				LightPrograms programs = new LightPrograms();
+				
+				programs_inlb.clear();
+				
+				try
+					{
+						fis = openFileInput(programFile);
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						programs = (LightPrograms) ois.readObject();
+						for(int i=0;i<programs.size();i++)
+							programs_inlb.add(programs.get(i));
+						fis.close();
+					}
+				catch(Exception e)
+					{
+						programs = new LightPrograms();
+					}
+			}
+		
+		private void savePrograms()
+			{
+				FileOutputStream fos;
+				LightPrograms programs = new LightPrograms();
+				for(int i=0;i<programs_inlb.getCount();i++)
+					programs.add(programs_inlb.getItem(i));
+				
+				try
+					{
+						fos = openFileOutput(programFile,Context.MODE_PRIVATE);
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+						oos.writeObject(programs);
+						fos.close();
+					}
+				catch(Exception e)
+					{
+						Log.e("File Save",e.getMessage());
+					}
+			}
+		
+		private void editProgram(LightProgram prog)
+			{
+				String s = "Program " + Integer.toString(temp);
+				temp++;
+				prog.setName(s);
+				prog.setDescription("Description of " + s);
+			}
+
+		private void addProgram()
+			{
+				if(active_node == null)
+					return;
+				
+				LightProgram lp = new LightProgram();
+				editProgram(lp);
+				lp.copyNode(active_node);
+				
+				programs_inlb.add(lp);
+				progidx = programs_inlb.getCount() - 1;
+				phf.getPrograms_list().setSelection(progidx);
+				savePrograms();
+			}
+
+		private void removeProgram()
+			{
+				if(progidx >= 0)
+					{
+						LightProgram lp = programs_inlb.getItem(progidx);
+						programs_inlb.remove(lp);
+						progidx = -1;
+						savePrograms();
+					}
+			}
+		
+		private void updateProgram()
+			{
+				if(progidx >= 0 && active_node != null)
+					{
+						LightProgram lp = programs_inlb.getItem(progidx);
+						editProgram(lp);
+						lp.copyNode(active_node);
+						savePrograms();
+					}
+			}
 
 		@Override
 		protected void onCreate(Bundle savedInstanceState)
@@ -154,9 +280,10 @@ public class MainActivity extends Activity
 					}
 				settings = new MQTTSettings(this);
 				nodes_inlb = new ArrayAdapter<ControllerNode>(this, android.R.layout.simple_list_item_1);
-				;
+				programs_inlb = new ArrayAdapter<LightProgram>(this,android.R.layout.simple_list_item_1);
 				nodes = new ArrayList<ControllerNode>();
 				cvidx = -1;
+				temp = 1;
 
 			}
 
@@ -179,6 +306,194 @@ public class MainActivity extends Activity
 				for(int i=0;i < enableList.length;i++)
 					phf.getView().findViewById(enableList[i]).setEnabled(false);
 			}
+		
+		private void setEffect(int effect,UpdateMode umode)
+			{
+				RadioButton rbv;
+				switch (effect)
+					{
+						case 0:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect0);
+							break;
+						case 1:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect1);
+							break;
+						case 2:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect2);
+							break;
+						case 3:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect3);
+							break;
+						case 4:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect4);
+							break;
+						case 5:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect5);
+							break;
+						default:
+							rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect0);
+							break;
+					}
+				
+				switch(umode)
+				{
+					case updateWidget:
+						rbv.setChecked(true);
+						break;
+					case updateController:
+						if(active_node != null)
+							active_node.setEffect(effect);
+						break;
+					case updateBoth:
+						rbv.setChecked(true);
+						if(active_node != null)
+							active_node.setEffect(effect);
+						break;
+				}
+				
+				
+			}
+		
+		private void setColorMode(int cm)
+			{
+				RadioButton rbv;
+				switch (cm)
+				{
+					case 0:
+						rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode0);
+						break;
+					case 1:
+						rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode1);
+						break;
+					case 2:
+						rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode2);
+						break;
+					default:
+						rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode0);
+						break;
+				}
+			rbv.setChecked(true);
+			}
+		
+		private void setAttack(int Attack,UpdateMode umode)
+			{
+				switch(umode)
+				{
+					case updateWidget:
+						phf.getSeekAttack().setProgress(Attack);
+						break;
+					case updateController:
+						if(active_node != null)
+							active_node.setAttack(Attack);
+						break;
+					case updateBoth:
+						phf.getSeekAttack().setProgress(Attack);
+						if(active_node != null)
+							active_node.setAttack(Attack);
+						break;
+				}
+			}
+		
+		private void setSustain(int Sustain,UpdateMode umode)
+			{
+				switch(umode)
+				{
+					case updateWidget:
+						phf.getSeekSustain().setProgress(Sustain);
+						break;
+					case updateController:
+						if(active_node != null)
+							active_node.setSustain(Sustain);
+						break;
+					case updateBoth:
+						phf.getSeekSustain().setProgress(Sustain);
+						if(active_node != null)
+							active_node.setSustain(Sustain);
+						break;
+				}
+			}
+		
+		private void setDecay(int Decay,UpdateMode umode)
+			{
+				switch(umode)
+				{
+					case updateWidget:
+						phf.getSeekDecay().setProgress(Decay);
+						break;
+					case updateController:
+						if(active_node != null)
+							active_node.setDecay(Decay);
+						break;
+					case updateBoth:
+						phf.getSeekDecay().setProgress(Decay);
+						if(active_node != null)
+							active_node.setDecay(Decay);
+						break;
+				}
+			}
+		
+		private void setDensity(int Density,UpdateMode umode)
+			{
+				switch(umode)
+				{
+					case updateWidget:
+						phf.getSeekDensity().setProgress(Density);
+						break;
+					case updateController:
+						if(active_node != null)
+							active_node.setDensity(Density);
+						break;
+					case updateBoth:
+						phf.getSeekDensity().setProgress(Density);
+						if(active_node != null)
+							active_node.setDensity(Density);
+						break;
+				}
+			}
+		
+		private void setColors(RGB[] colors)
+			{
+				for (int i = 0; i < phf.getColorCount(); i++)
+					{
+						ColorView cv = phf.getColorView(i);
+						if(i < colors.length)
+							{
+							cv.setColor(colors[i].getColor());
+							cv.setSelected(cvidx == i);
+							}
+						else
+							{
+								cv.setColor(0);
+								cv.setSelected(false);
+								if(cvidx == i)
+									cvidx = -1;
+							}
+					}
+				if (cvidx >= 0)
+					{
+						ColorView cv = phf.getColorView(cvidx);
+						RGB c = new RGB(cv.getColor());
+						boolean b = true;
+						
+						if(active_node != null)
+							{	// prevent slider updates from updating device
+							b = active_node.isPayAttention();
+							active_node.setPayAttention(false);
+							}
+						phf.getSeekRed().setProgress(c.getRed());
+						phf.getSeekGreen().setProgress(c.getGreen());
+						phf.getSeekBlue().setProgress(c.getBlue());
+						if(active_node != null)
+							{	// prevent slider updates from updating device
+							active_node.setPayAttention(b);
+							}
+						enableColorControls(true);
+					}
+				else
+					enableColorControls(false);
+				if (active_node != null)
+					active_node.setColors(colors);
+			}
 
 		private void updateControls(ControllerNode cn)
 			{
@@ -186,69 +501,18 @@ public class MainActivity extends Activity
 					{
 						cn.setPayAttention(false);
 						enableControls();
-						int x = cn.getEffect();
-						RadioButton rbv;
-						switch (x)
-							{
-								case 0:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect0);
-									break;
-								case 1:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect1);
-									break;
-								case 2:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect2);
-									break;
-								case 3:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect3);
-									break;
-								case 4:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect4);
-									break;
-								case 5:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect5);
-									break;
-								default:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioEffect0);
-									break;
-							}
-						rbv.setChecked(true);
+						int effect = cn.getEffect();
+						setEffect(effect,UpdateMode.updateWidget);
 
-						x = cn.getColorMode();
-						switch (x)
-							{
-								case 0:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode0);
-									break;
-								case 1:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode1);
-									break;
-								case 2:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode2);
-									break;
-								default:
-									rbv = (RadioButton) phf.getView().findViewById(R.id.radioCMode0);
-									break;
-							}
-						rbv.setChecked(true);
+						effect = cn.getColorMode();
+						setColorMode(effect);
+						
+						setAttack(cn.getAttack(),UpdateMode.updateWidget);
+						setSustain(cn.getSustain(),UpdateMode.updateWidget);
+						setDecay(cn.getDecay(),UpdateMode.updateWidget);
+						setDensity(cn.getDensity(),UpdateMode.updateWidget);
 
-						phf.getSeekDecay().setProgress(cn.getDecay());
-						phf.getSeekDensity().setProgress(cn.getDensity());
-						for (int i = 0; i < phf.getColorCount(); i++)
-							{
-								ColorView cv = phf.getColorView(i);
-								RGB rgb = cn.getColor(i);
-								cv.setColor(rgb.getColor());
-								cv.setSelected(cvidx == i);
-							}
-						if (cvidx >= 0)
-							{
-								ColorView cv = phf.getColorView(cvidx);
-								RGB c = new RGB(cv.getColor());
-								phf.getSeekRed().setProgress(c.getRed());
-								phf.getSeekGreen().setProgress(c.getGreen());
-								phf.getSeekBlue().setProgress(c.getBlue());
-							}
+						setColors(cn.getColors());
 						cn.setPayAttention(true);
 					}
 				else
@@ -257,11 +521,30 @@ public class MainActivity extends Activity
 							disableControls();
 					}
 			}
+		
+		private void enableColorControls(boolean enable)
+			{
+				for(int i = 0;i< colorControlList.length;i++)
+					phf.getView().findViewById(colorControlList[i]).setEnabled(enable);
+			}
+		
+		private void setProgram(LightProgram lp)
+			{
+				cvidx = -1;
+
+				setAttack(lp.getAttack(),UpdateMode.updateBoth);
+				setSustain(lp.getSustain(),UpdateMode.updateBoth);
+				setDecay(lp.getDecay(),UpdateMode.updateBoth);
+				setDensity(lp.getDensity(),UpdateMode.updateBoth);
+				setEffect(lp.getEffect());
+				setColors(lp.getColors());
+			}
 
 		@Override
 		protected void onStart()
 			{
 				super.onStart();
+				loadPrograms();
 				phf = (PlaceholderFragment) getFragmentManager().findFragmentById(R.id.container);
 				phf.getController_list().setAdapter(nodes_inlb);
 				phf.getController_list().setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -270,13 +553,6 @@ public class MainActivity extends Activity
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 							{
-								// phf.getController_list().setItemChecked(position,
-								// true);
-								// phf.getController_list().setSelection(position);
-								// view.setBackgroundColor(Color.BLUE);
-
-								// parent.setSelection(position);
-								// parent.setSelected(true);
 								view.setSelected(true);
 								ControllerNode cn = (ControllerNode) parent.getItemAtPosition(position);
 								cvidx = -1;
@@ -284,6 +560,47 @@ public class MainActivity extends Activity
 								updateControls(cn);
 							}
 					});
+				
+				phf.getPrograms_list().setAdapter(programs_inlb);
+				phf.getPrograms_list().setOnItemClickListener(new AdapterView.OnItemClickListener()
+					{
+
+
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+							{
+								view.setSelected(true);
+								LightProgram lp = (LightProgram) parent.getItemAtPosition(position);
+								progidx = position;
+								setProgram(lp);
+							}
+					});
+				
+				phf.getButtonNew().setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v)
+						{
+							addProgram();
+						}});
+				
+				phf.getButtonUpdate().setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v)
+						{
+							updateProgram();
+						}});
+				
+				phf.getButtonDelete().setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v)
+						{
+							removeProgram();
+						}});
+				
+				/*
 				phf.getController_list().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 					{
 
@@ -325,7 +642,7 @@ public class MainActivity extends Activity
 								rbv.setChecked(true);
 							}
 					});
-				
+				*/
 				phf.getTextViewAttack().setOnClickListener(new OnClickListener(){
 
 					@Override
@@ -333,11 +650,11 @@ public class MainActivity extends Activity
 						{
 							if(phf.getSeekAttack().getProgress() > 0)
 								{
-									phf.getSeekAttack().setProgress(0);
+									setAttack(0);
 								}
 							else
 								{
-									phf.getSeekAttack().setProgress(255);
+									setAttack(255);
 								}
 						}});
 				
@@ -1283,6 +1600,10 @@ public class MainActivity extends Activity
 				private SeekBar seekBlue;
 				private Button seekBlueMinus;
 				private Button seekBluePlus;
+				private ListView programs_list;
+				private Button buttonNew;
+				private Button buttonUpdate;
+				private Button buttonDelete;
 				private ColorView[] cvColors;
 				private static final int[] colorIDs =
 					{ R.id.color0, R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7,
@@ -1327,6 +1648,10 @@ public class MainActivity extends Activity
 						setSeekBlue((SeekBar) rootView.findViewById(R.id.seekBlue));
 						setSeekBlueMinus((Button) rootView.findViewById(R.id.seekBlueMinus));
 						setSeekBluePlus((Button) rootView.findViewById(R.id.seekBluePlus));
+						setButtonNew((Button) rootView.findViewById(R.id.buttonNew));
+						setButtonUpdate((Button) rootView.findViewById(R.id.buttonUpdate));
+						setButtonDelete((Button) rootView.findViewById(R.id.buttonDelete));
+						setPrograms_list((ListView) rootView.findViewById(R.id.listPrograms));
 						for (int i = 0; i < colorIDs.length; i++)
 							{
 								setColorView(i, (ColorView) rootView.findViewById(colorIDs[i]));
@@ -1647,6 +1972,46 @@ public class MainActivity extends Activity
 				public void setSeekBluePlus(Button seekBluePlus)
 					{
 						this.seekBluePlus = seekBluePlus;
+					}
+
+				public ListView getPrograms_list()
+					{
+							return programs_list;
+					}
+
+				public void setPrograms_list(ListView programs_list)
+					{
+							this.programs_list = programs_list;
+					}
+
+				public Button getButtonNew()
+					{
+							return buttonNew;
+					}
+
+				public void setButtonNew(Button buttonNew)
+					{
+							this.buttonNew = buttonNew;
+					}
+
+				public Button getButtonUpdate()
+					{
+							return buttonUpdate;
+					}
+
+				public void setButtonUpdate(Button buttonUpdate)
+					{
+							this.buttonUpdate = buttonUpdate;
+					}
+
+				public Button getButtonDelete()
+					{
+							return buttonDelete;
+					}
+
+				public void setButtonDelete(Button buttonDelete)
+					{
+							this.buttonDelete = buttonDelete;
 					}
 
 			}

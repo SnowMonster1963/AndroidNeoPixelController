@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/titleProgram"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/textName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textTitle"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        android:hint="@string/hintName"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/textDescr"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/textName"
+		android:gravity="top"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        android:hint="@string/hintDescr"
+        android:inputType="text" />
+    
+    <Button
+        android:id="@+id/buttonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textDescr"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        android:text="@string/promptOK"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textDescr"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        android:layout_toEndOf="@+id/buttonOK"
+        android:text="@string/promptCancel"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+</RelativeLayout>

@@ -30,7 +30,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/listframe"
-        android:columnCount="4" >
+        android:columnCount="4" 
+        android:rowCount="4">
+
+        <!-- Effect -->
 
         <TextView
             android:id="@+id/textEffectLabel"
@@ -42,8 +45,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_rowSpan="3"
             android:orientation="vertical" >
 
             <RadioButton
@@ -75,7 +81,62 @@
                 android:id="@+id/radioEffect5"
                 android:onClick="onRadioButtonClicked"
                 android:text="@string/labelEffect5" />
-            </RadioGroup>
+        </RadioGroup>
+
+        <!-- Programs -->
+
+        <TextView
+            android:id="@+id/textPrograms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:text="@string/promptPrograms"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ListView
+            android:id="@+id/listPrograms"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:layout_rowSpan="3"
+            android:background="@drawable/list_custom"
+            android:choiceMode="singleChoice"
+            android:listSelector="#0000ff" >
+        </ListView>
+
+        <Button
+            android:id="@+id/buttonNew"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_row="1"
+            android:gravity="center"
+            android:text="@string/promptNew"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/buttonUpdate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_row="2"
+            android:gravity="center"
+            android:text="@string/promptUpdate"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_row="3"
+            android:gravity="center"
+            android:text="@string/promptDelete"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <!-- Color Model - deprecated -->
 
         <TextView
             android:id="@+id/textColorModeLabel"
@@ -84,12 +145,14 @@
             android:layout_column="2"
             android:layout_row="0"
             android:text="@string/promptColorMode"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <RadioButton
                 android:id="@+id/radioCMode0"
@@ -109,16 +172,17 @@
     </GridLayout>
 
     <!-- Attack -->
+
     <TextView
         android:id="@+id/textViewAttack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/gridLayout1"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptAttack"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -126,54 +190,55 @@
         android:id="@+id/seekAttackMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/gridLayout1"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekAttack"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gridLayout1"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekAttackMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intAttack" />
 
     <Button
         android:id="@+id/seekAttackPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/gridLayout1"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekAttack"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- Sustain -->
+
     <TextView
         android:id="@+id/textViewSustain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/textViewAttack"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptSustain"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -181,55 +246,55 @@
         android:id="@+id/seekSustainMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewAttack"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekSustain"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewAttack"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekSustainMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intSustain" />
 
     <Button
         android:id="@+id/seekSustainPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewAttack"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekSustain"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
     <!-- Decay -->
+
     <TextView
         android:id="@+id/textViewDecay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/textViewSustain"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptDecay"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -237,54 +302,55 @@
         android:id="@+id/seekDecayMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewSustain"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekDecay"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewSustain"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekDecayMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intDecay" />
 
     <Button
         android:id="@+id/seekDecayPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewSustain"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekDecay"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- Density -->
+
     <TextView
         android:id="@+id/textViewDensity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/textViewDecay"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptDensity"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -292,261 +358,245 @@
         android:id="@+id/seekDensityMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewDecay"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekDensity"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewDecay"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekDensityMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intDensity" />
 
     <Button
         android:id="@+id/seekDensityPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textViewDecay"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color0" 
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color0"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
-        custom:color="@color/orange"
-        />
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color1" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color1"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color0"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color2" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color2"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color1"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color3" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color3"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color2"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color4" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color4"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color3"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color5" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color5"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color4"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color6" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color6"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color5"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color7" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color7"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/textViewDensity"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color6"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color8" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color8"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color9" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color9"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color8"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color10" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color10"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color9"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color11" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color11"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color10"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color12" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color12"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color11"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color13" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color13"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color12"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color14" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color14"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color13"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
-    <com.thomassnow.xmastree.ui.views.ColorView 
-        android:id="@+id/color15" 
+    <com.thomassnow.xmastree.ui.views.ColorView
+        android:id="@+id/color15"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/color0"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/color14"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
-        custom:color="@color/orange"
-        />
+        custom:color="@color/orange" />
 
     <!-- Red -->
+
     <TextView
         android:id="@+id/textViewRed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/color8"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptRed"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -554,54 +604,55 @@
         android:id="@+id/seekRedMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/color8"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekRed"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/color8"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekRedMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intColor" />
 
     <Button
         android:id="@+id/seekRedPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/color8"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekRed"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- Green -->
+
     <TextView
         android:id="@+id/textViewGreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/seekRed"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptGreen"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -609,54 +660,55 @@
         android:id="@+id/seekGreenMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/seekRed"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekGreen"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seekRed"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekGreenMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intColor" />
 
     <Button
         android:id="@+id/seekGreenPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/seekRed"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekGreen"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- Blue -->
+
     <TextView
         android:id="@+id/textViewBlue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:layout_below="@+id/seekGreen"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptBlue"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -664,43 +716,41 @@
         android:id="@+id/seekBlueMinus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/seekGreen"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/textViewDensity"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptMinus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <SeekBar
         android:id="@+id/seekBlue"
         android:layout_width="300dp"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seekGreen"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekBlueMinus"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:max="@integer/intColor" />
 
     <Button
         android:id="@+id/seekBluePlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/seekGreen"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/colormap_margin"
+        android:layout_marginLeft="@dimen/colormap_margin"
+        android:layout_marginRight="@dimen/colormap_margin"
+        android:layout_marginTop="@dimen/colormap_margin"
         android:layout_toEndOf="@+id/seekBlue"
-	    android:layout_marginBottom="@dimen/colormap_margin"
-	    android:layout_marginLeft="@dimen/colormap_margin"
-	    android:layout_marginRight="@dimen/colormap_margin"
-	    android:layout_marginTop="@dimen/colormap_margin"
         android:text="@string/promptPlus"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    
-    
 </RelativeLayout>
